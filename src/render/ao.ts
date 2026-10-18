@@ -14,6 +14,7 @@
  * `<outDir>/blender_stderr.log` for diagnosis.
  */
 
+import { fileURLToPath } from "node:url";
 import { existsSync, mkdirSync, statSync, writeFileSync } from "node:fs";
 import { join, resolve, dirname } from "node:path";
 
@@ -28,7 +29,7 @@ export type AOView = ViewName;
 
 // scripts/_render_ao_blender.py is a sibling asset of this TS module's dir.
 // dirname(import.meta.url) → .../Procedura/src/render
-const SRC_RENDER_DIR = resolve(dirname(new URL(import.meta.url).pathname));
+const SRC_RENDER_DIR = resolve(dirname(fileURLToPath(new URL(import.meta.url))));
 const PROCEDURA_ROOT = resolve(SRC_RENDER_DIR, "..", "..");
 export const AO_RENDER_SCRIPT = join(PROCEDURA_ROOT, "scripts", "_render_ao_blender.py");
 

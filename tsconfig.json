@@ -16,5 +16,5 @@
     "resolveJsonModule": true,
     "types": ["bun"]
   },
-  "include": ["src/**/*", "scripts/**/*"]
+  "include": ["src/**/*", "scripts/**/*", "mcp/runtime/**/*", "mcp/tests/**/*.ts"]
 }

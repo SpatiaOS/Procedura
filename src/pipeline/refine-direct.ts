@@ -37,6 +37,7 @@
  * `accept_edit` and `revert_edit` were for.
  */
 
+import { fileURLToPath } from "node:url";
 import { join } from "node:path";
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { basename } from "node:path";
@@ -60,8 +61,8 @@ import { writeFinalOutputs, DEFAULT_REFINE_STEPS } from "./refine.ts";
 import type { RefineOpts, RefineResult } from "./refine.ts";
 import { timeStage } from "./stage-timer.ts";
 
-const DIAGNOSE_PROMPT_PATH = new URL("./diagnose-prompt.md", import.meta.url).pathname;
-const PATCH_PROMPT_PATH = new URL("./refine-patch-prompt.md", import.meta.url).pathname;
+const DIAGNOSE_PROMPT_PATH = fileURLToPath(new URL("./diagnose-prompt.md", import.meta.url));
+const PATCH_PROMPT_PATH = fileURLToPath(new URL("./refine-patch-prompt.md", import.meta.url));
 
 /** The fixed review set: the six ortho faces plus the hero isometric. */
 const REFINE_VIEWS = [

@@ -15,3 +15,12 @@ dist/
 build/
 __pycache__/
 *.pyc
+
+# Machine-local MCP registration, executable hashes and Python environment
+.procedura/
+.codex/config.toml
+.codex/hooks.json
+.mcp.json
+.claude/settings.local.json
+.claude/skills/procedura/
+*.procedura-tmp

@@ -26,6 +26,44 @@ can open, edit, and re-compile — optionally with per-part PBR materials
 
 ---
 
+## Use your coding-agent session through MCP
+
+Run Procedura inside **Codex or Claude Code**, using the model access already
+configured in that agent. The local MCP bridge sends the pipeline's prompts and
+images back to the same conversation. Procedura owns compilation, retries,
+refinement, paint and motion; the MCP transport starts no additional model
+process and makes no separate model API calls. Your agent/provider's usage
+limits and billing still apply.
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/SpatiaOS/Procedura/main/scripts/install-mcp.sh \
+  | bash -s -- --agent codex
+```
+
+Choose `--agent claude` or `--agent both` instead as needed. The online installer
+uses `~/.local/share/Procedura` by default. From an existing checkout:
+
+```bash
+bash scripts/install-mcp.sh --agent both
+```
+
+Then start your coding agent **inside that checkout**, review its project/MCP/hook
+trust prompts, and ask:
+
+> Use Procedura to build the rover in `/path/to/reference.png`. Run the complete
+> pipeline and show the preview, output files and validation limitations.
+
+Setup preserves your model, credentials and other project settings. Linux x86_64
+has automatic native dependency downloads; Python 3.11+ and an authenticated
+coding agent are required. Isaac Sim is installed separately for physics
+validation. No model API key is required by this MCP transport.
+
+See the **[MCP tutorial](docs/mcp.md)** for setup options, both agents, text-only
+requests, parallel workspaces, outputs and recovery. The API-based CLI and Studio
+below remain available as a separate way to run the pipeline.
+
+---
+
 ## Install
 
 One command installs everything: Bun, the packages, a Manifold-capable OpenSCAD,

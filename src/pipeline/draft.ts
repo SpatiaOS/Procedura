@@ -29,6 +29,7 @@
  *   thinking.txt          — model reasoning trace (if any)
  */
 
+import { fileURLToPath } from "node:url";
 import { mkdirSync, writeFileSync, readFileSync, existsSync, statSync, copyFileSync } from "node:fs";
 import { join, resolve, dirname, basename } from "node:path";
 
@@ -56,7 +57,7 @@ import {
 import { createNoopSandbox } from "../sandbox/noop.ts";
 import { createFileTrajectoryWriter } from "../trajectory/writer.ts";
 
-const PROCEDURA_ROOT = resolve(dirname(new URL(import.meta.url).pathname), "..", "..");
+const PROCEDURA_ROOT = resolve(dirname(fileURLToPath(new URL(import.meta.url))), "..", "..");
 const IMAGE_PROMPT_PATH  = join(PROCEDURA_ROOT, "prompts", "image_prompt.md");
 const SCAD_SYSTEM_PATH   = join(PROCEDURA_ROOT, "prompts", "scad_system.md");
 

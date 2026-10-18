@@ -1,3 +1,4 @@
+import { fileURLToPath } from "node:url";
 import {
   copyFileSync,
   existsSync,
@@ -67,7 +68,7 @@ import { renderPartsColorViews } from "../render/parts_color.ts";
 import { splitScadToColoredParts } from "../render/parts_split.ts";
 import { DEFAULT_VIEWS } from "../render/views.ts";
 
-const PROCEDURA_ROOT = resolve(dirname(new URL(import.meta.url).pathname), "..", "..");
+const PROCEDURA_ROOT = resolve(dirname(fileURLToPath(new URL(import.meta.url))), "..", "..");
 const MOTION_PLAN_SYSTEM_PATH = join(PROCEDURA_ROOT, "prompts", "motion_plan_system.md");
 const MOTION_AUTHOR_SYSTEM_PATH = join(PROCEDURA_ROOT, "prompts", "motion_author_system.md");
 const MOTION_REFINE_SYSTEM_PATH = join(PROCEDURA_ROOT, "prompts", "motion_refine_system.md");

@@ -12,6 +12,7 @@
  *   6. Verify the requested color-<view>.png files landed.
  */
 
+import { fileURLToPath } from "node:url";
 import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { join, resolve, dirname } from "node:path";
 
@@ -25,7 +26,7 @@ import { deviceLine } from "./device_line.ts";
 // Re-exported for back-compat with existing importers.
 export { DEFAULT_PALETTE };
 
-const SRC_RENDER_DIR = resolve(dirname(new URL(import.meta.url).pathname));
+const SRC_RENDER_DIR = resolve(dirname(fileURLToPath(new URL(import.meta.url))));
 const PROCEDURA_ROOT = resolve(SRC_RENDER_DIR, "..", "..");
 export const PARTS_COLOR_RENDER_SCRIPT = join(
   PROCEDURA_ROOT, "scripts", "_render_parts_color_blender.py",

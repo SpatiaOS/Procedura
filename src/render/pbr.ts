@@ -11,6 +11,7 @@
  * `--meshes stl:r,g,b` string can carry), one entry per part STL.
  */
 
+import { fileURLToPath } from "node:url";
 import { existsSync, mkdirSync, writeFileSync, statSync, readdirSync } from "node:fs";
 import { join, resolve, dirname } from "node:path";
 
@@ -19,7 +20,7 @@ import type { RenderedView } from "./ao.ts";
 import { DEFAULT_VIEWS, type ViewName } from "./views.ts";
 import { deviceLine } from "./device_line.ts";
 
-const SRC_RENDER_DIR = resolve(dirname(new URL(import.meta.url).pathname));
+const SRC_RENDER_DIR = resolve(dirname(fileURLToPath(new URL(import.meta.url))));
 const PROCEDURA_ROOT = resolve(SRC_RENDER_DIR, "..", "..");
 export const PBR_RENDER_SCRIPT = join(PROCEDURA_ROOT, "scripts", "_render_pbr_blender.py");
 
