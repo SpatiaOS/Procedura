@@ -17,7 +17,9 @@ while [ "$#" -gt 0 ]; do
         --agent) agent="$2" ;;
         --dir) destination="$2" ;;
         --ref) revision="$2" ;;
-        *) setup_args+=("$1" "$2") ;;
+        --openscad) export OPENSCAD_PATH="$2"; setup_args+=("$1" "$2") ;;
+        --blender) export PROCEDURA_BLENDER_PATH="$2"; setup_args+=("$1" "$2") ;;
+        --isaac) export PROCEDURA_ISAACSIM_PATH="$2"; setup_args+=("$1" "$2") ;;
       esac
       shift 2 ;;
     --no-deps) no_deps=1; shift ;;

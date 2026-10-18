@@ -50,6 +50,8 @@ MISSING=()
 # configured machine reports "found" instead of re-downloading 350 MB.
 if [ -f "$REPO/.env" ]; then
   for k in OPENSCAD_PATH PROCEDURA_BLENDER_PATH PROCEDURA_ISAACSIM_PATH; do
+    # Explicit environment/installer flags take priority over saved defaults.
+    [ -n "${!k:-}" ] && continue
     v="$(sed -n "s/^[[:space:]]*$k=//p" "$REPO/.env" | tail -1 | tr -d '"'"'"'"' | tr -d "\r")"
     [ -n "$v" ] && export "$k=$v"
   done
