@@ -21,11 +21,13 @@ such as WSL. The coding agent needs shell execution and native MCP image support
 a chat client with only text tools is insufficient.
 
 Install Git, Python 3.11+ with `venv` support, and your chosen coding agent first.
-Authenticate that agent normally. Then:
+Authenticate that agent normally. The MCP release is currently on
+[`feat/mcp-session-setup`](https://github.com/SpatiaOS/Procedura/tree/feat/mcp-session-setup);
+the commands below install that branch:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/SpatiaOS/Procedura/main/scripts/install-mcp.sh \
-  | bash -s -- --agent codex
+curl -fsSL https://raw.githubusercontent.com/SpatiaOS/Procedura/feat/mcp-session-setup/scripts/install-mcp.sh \
+  | bash -s -- --ref feat/mcp-session-setup --agent codex
 ```
 
 Use `--agent claude` for Claude Code or `--agent both` for both agents. The online
@@ -37,7 +39,7 @@ tag, use its bootstrap URL and pass the matching `--ref <branch-or-tag>`.
 From an existing clone:
 
 ```bash
-git clone https://github.com/SpatiaOS/Procedura.git
+git clone --branch feat/mcp-session-setup https://github.com/SpatiaOS/Procedura.git
 cd Procedura
 bash scripts/install-mcp.sh --agent both
 ```
@@ -85,9 +87,9 @@ threshold, because large motion requests need room to fit before compaction.
 For Claude Code, `.mcp.json` registers the same server,
 `.claude/settings.local.json` holds the hooks, and a copy of the skill lives at
 `.claude/skills/procedura/SKILL.md`. `CLAUDE.md` loads the project instructions.
-Use `/mcp` to inspect the connection. A custom launcher still works, for example
-`cc_gemini_on && cc` on a machine where the user has defined those commands.
-Those aliases are not prerequisites and are not supplied by Procedura.
+Use `/mcp` to inspect the connection. A custom authenticated launcher also works;
+use the launcher you normally use for that agent. Local aliases are not supplied
+by Procedura.
 
 Configuration formats and trust behavior are described in the official
 [Codex MCP documentation](https://developers.openai.com/codex/mcp),
@@ -193,9 +195,13 @@ conversation enough context to read the complete request; do not skip pages.
 
 ## Maintenance and validation
 
-The bridge is ported from the Tether MCP prototype that completed two native
-Codex runs and two Claude Code/Gemini runs. Those historical runs validate the
-prototype, not an identical output guarantee for this Procedura integration.
+Two full reference-based cases, `assault_buggy` and `00001198`, completed on this
+Procedura integration in Claude Code with Opus 5.5 through a custom gateway.
+Both completed refinement, paint, USD/URDF and strict Isaac validation. The buggy
+retained two motion warnings. See the [release validation results](../README.md#release-validation)
+for part counts, elapsed times and known limitations. Earlier native Codex and
+Claude Code/Gemini runs used the Tether prototype and are separate evidence.
+
 The integration uses Procedura's current checked-in engine with two transport
 seams in `vendor/harness/src/llm/route.ts` and `src/imagegen/images.ts`, plus a
 file-URL decoding fix so native pipeline assets load from paths with spaces.
