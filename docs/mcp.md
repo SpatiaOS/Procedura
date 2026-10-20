@@ -21,13 +21,11 @@ such as WSL. The coding agent needs shell execution and native MCP image support
 a chat client with only text tools is insufficient.
 
 Install Git, Python 3.11+ with `venv` support, and your chosen coding agent first.
-Authenticate that agent normally. The MCP release is currently on
-[`feat/mcp-session-setup`](https://github.com/SpatiaOS/Procedura/tree/feat/mcp-session-setup);
-the commands below install that branch:
+Authenticate that agent normally. Then install from `main`:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/SpatiaOS/Procedura/feat/mcp-session-setup/scripts/install-mcp.sh \
-  | bash -s -- --ref feat/mcp-session-setup --agent codex
+curl -fsSL https://raw.githubusercontent.com/SpatiaOS/Procedura/main/scripts/install-mcp.sh \
+  | bash -s -- --agent codex
 ```
 
 Use `--agent claude` for Claude Code or `--agent both` for both agents. The online
@@ -39,7 +37,7 @@ tag, use its bootstrap URL and pass the matching `--ref <branch-or-tag>`.
 From an existing clone:
 
 ```bash
-git clone --branch feat/mcp-session-setup https://github.com/SpatiaOS/Procedura.git
+git clone https://github.com/SpatiaOS/Procedura.git
 cd Procedura
 bash scripts/install-mcp.sh --agent both
 ```

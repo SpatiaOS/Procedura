@@ -48,15 +48,11 @@ You need **Linux, Git, curl, Python 3.11+ with `venv`, and an authenticated Code
 Claude Code installation**. Automatic native dependency downloads support Linux
 x86_64. See [platforms and dependencies](#platforms-and-dependencies) for details.
 
-> The MCP release is currently published on
-> [`feat/mcp-session-setup`](https://github.com/SpatiaOS/Procedura/tree/feat/mcp-session-setup).
-> These commands install that branch.
-
 ### 1. Install
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/SpatiaOS/Procedura/feat/mcp-session-setup/scripts/install-mcp.sh \
-  | bash -s -- --ref feat/mcp-session-setup --agent both
+curl -fsSL https://raw.githubusercontent.com/SpatiaOS/Procedura/main/scripts/install-mcp.sh \
+  | bash -s -- --agent both
 ```
 
 Choose `--agent codex` or `--agent claude` to configure just one agent.
@@ -66,7 +62,7 @@ to choose another location. It leaves existing checkouts at their current revisi
 Alternatively, install from a clone:
 
 ```bash
-git clone --branch feat/mcp-session-setup https://github.com/SpatiaOS/Procedura.git
+git clone https://github.com/SpatiaOS/Procedura.git
 cd Procedura
 bash scripts/install-mcp.sh --agent both
 ```
