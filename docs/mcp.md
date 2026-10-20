@@ -191,14 +191,39 @@ trust and server startup, then restart that agent. If OpenSCAD lacks `--backend`
 install a Manifold build. If a large request repeatedly compacts, give the host
 conversation enough context to read the complete request; do not skip pages.
 
+## Test results
+
+Two complete reference-based cases ran in parallel with **Claude Code and Opus
+5.5 through a custom gateway**, using the default MCP profile at commit
+[`23d1094`](https://github.com/SpatiaOS/Procedura/commit/23d1094bd13a14abfeff4e670f5ff79b8aeb15e1).
+Both completed refinement with verdict `ok`, painted previews, USD/URDF export,
+and Isaac validation with hard `ok: true` and `strictOk: true`.
+
+| Case | Generated/planned parts | Elapsed time | Completion |
+| --- | --- | --- | --- |
+| `assault_buggy` | 26/26 | 4h 57m | `done_with_limitations` |
+| `00001198` rover | 22/22 | 4h 28m | `done` |
+
+The buggy retained two motion warnings for `machine_gun`: its measured geometry
+had moved, so that measurement was demoted to a categorical prior, and missing
+anchor evidence left the joint frame at the origin. Refine summaries also noted
+remaining visual differences: the buggy's gun proportions and the rover's
+camera-head proportions, chimney height and antenna offset.
+
+Elapsed times include local compilation/rendering/simulation and gateway latency;
+they vary with hardware, host model and provider limits. These runs validate this
+integration path; their gateway authentication does not establish subscription
+coverage for another account.
+
+The bridge also has Python and TypeScript tests, type checking, and a native
+OpenSCAD/Blender fixture covering MCP image delivery and sealed artifacts from a
+checkout whose path contains spaces. See
+[maintenance and validation](#maintenance-and-validation) for commands.
+
 ## Maintenance and validation
 
-Two full reference-based cases, `assault_buggy` and `00001198`, completed on this
-Procedura integration in Claude Code with Opus 5.5 through a custom gateway.
-Both completed refinement, paint, USD/URDF and strict Isaac validation. The buggy
-retained two motion warnings. See the [release validation results](../README.md#release-validation)
-for part counts, elapsed times and known limitations. Earlier native Codex and
-Claude Code/Gemini runs used the Tether prototype and are separate evidence.
+Earlier native Codex and Claude Code/Gemini runs used the Tether prototype.
+They are separate from the Procedura test results above.
 
 The integration uses Procedura's current checked-in engine with two transport
 seams in `vendor/harness/src/llm/route.ts` and `src/imagegen/images.ts`, plus a
