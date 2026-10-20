@@ -18,6 +18,8 @@ DO_BLENDER=1
 DO_OPENSCAD=1
 DO_BUN=1
 CHECK_ONLY=0
+DO_ENV=1
+DO_STUDIO=1
 
 while [ $# -gt 0 ]; do
   case "$1" in
@@ -25,6 +27,7 @@ while [ $# -gt 0 ]; do
     --no-blender) DO_BLENDER=0 ;;
     --no-openscad) DO_OPENSCAD=0 ;;
     --no-bun) DO_BUN=0 ;;
+    --mcp) DO_ENV=0; DO_STUDIO=0 ;;
     --prefix) PREFIX="$2"; shift ;;
     -h|--help) sed -n '2,14p' "${BASH_SOURCE[0]}" | sed 's/^# \{0,1\}//'; exit 0 ;;
     *) echo "unknown option: $1" >&2; exit 2 ;;
@@ -47,6 +50,8 @@ MISSING=()
 # configured machine reports "found" instead of re-downloading 350 MB.
 if [ -f "$REPO/.env" ]; then
   for k in OPENSCAD_PATH PROCEDURA_BLENDER_PATH PROCEDURA_ISAACSIM_PATH; do
+    # Explicit environment/installer flags take priority over saved defaults.
+    [ -n "${!k:-}" ] && continue
     v="$(sed -n "s/^[[:space:]]*$k=//p" "$REPO/.env" | tail -1 | tr -d '"'"'"'"' | tr -d "\r")"
     [ -n "$v" ] && export "$k=$v"
   done
@@ -99,7 +104,9 @@ elif [ "$CHECK_ONLY" = 1 ]; then
   [ -d "$REPO/web/node_modules" ] && ok "web node_modules present" || warn "web node_modules missing (Studio only)"
 else
   ( cd "$REPO" && bun install --silent ) && ok "pipeline dependencies"
-  ( cd "$REPO/web" && bun install --silent ) && ok "Studio dependencies"
+  if [ "$DO_STUDIO" = 1 ]; then
+    ( cd "$REPO/web" && bun install --silent ) && ok "Studio dependencies"
+  fi
 fi
 
 # ── 3. OpenSCAD (must be Manifold-capable) ──────────────────────────────────
@@ -197,7 +204,9 @@ fi
 
 # ── 5. Configuration ────────────────────────────────────────────────────────
 step "5/5  Configuration"
-if [ -f "$REPO/.env" ]; then
+if [ "$DO_ENV" = 0 ]; then
+  ok "MCP uses the coding agent's model access; no API .env is needed"
+elif [ -f "$REPO/.env" ]; then
   ok ".env exists (left untouched)"
 elif [ "$CHECK_ONLY" = 1 ]; then
   warn ".env missing — copy .env.example and add your endpoint"
@@ -205,7 +214,9 @@ else
   cp "$REPO/.env.example" "$REPO/.env"
   ok "created .env from .env.example"
 fi
-if grep -qE '^\s*(OPENAI_API_KEY|GEMINI_API_KEY)=\S' "$REPO/.env" 2>/dev/null; then
+if [ "$DO_ENV" = 0 ]; then
+  :
+elif grep -qE '^\s*(OPENAI_API_KEY|GEMINI_API_KEY)=\S' "$REPO/.env" 2>/dev/null; then
   ok "an LLM key is set"
 else
   warn "no LLM key yet — add OPENAI_API_KEY (or GEMINI_API_KEY) to .env"
@@ -216,8 +227,10 @@ fi
 printf "\n${B}Summary${N}\n"
 if [ ${#MISSING[@]} -eq 0 ]; then
   ok "everything is in place"
-  printf "\n  Try it:\n    ${DIM}bun run scripts/procedura.ts -o outputs/stool --prompt \"a three-legged wooden stool\"${N}\n"
-  printf "  Or open the Studio:\n    ${DIM}cd web && bun run start${N}\n\n"
+  if [ "$DO_ENV" = 1 ]; then
+    printf "\n  Try it:\n    ${DIM}bun run scripts/procedura.ts -o outputs/stool --prompt \"a three-legged wooden stool\"${N}\n"
+    printf "  Or open the Studio:\n    ${DIM}cd web && bun run start${N}\n\n"
+  fi
 else
   warn "still missing: ${MISSING[*]}"
   printf "\n  Re-run this script after fixing those, or ${DIM}bash scripts/install-deps.sh --check${N} to re-test.\n\n"

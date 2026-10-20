@@ -18,6 +18,7 @@
  * critic sees what was previously flagged and focuses on what's still wrong.
  */
 
+import { fileURLToPath } from "node:url";
 import { join } from "node:path";
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import type { JsonObject } from "@harness/template/types";
@@ -28,7 +29,7 @@ import { pad } from "./state.ts";
 import { splitThinkTags } from "../llm/think-tags.ts";
 import { ensureConnectivity } from "./connectivity-cache.ts";
 
-const DIAGNOSE_PROMPT_PATH = new URL("../pipeline/diagnose-prompt.md", import.meta.url).pathname;
+const DIAGNOSE_PROMPT_PATH = fileURLToPath(new URL("../pipeline/diagnose-prompt.md", import.meta.url));
 
 /** How many times to re-issue the reviewer call when it returns an empty
  *  (reasoning-only) diagnosis or errors, before punting back to the agent. */

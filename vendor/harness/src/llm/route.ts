@@ -169,6 +169,11 @@ export function createLLMClient(opts: {
    *  multiplies into attempts² POSTs against a failing gateway. */
   maxAttempts?: number;
 } = {}): LLMClient {
+  if (process.env["PROCEDURA_MCP_SESSION"] === "1") {
+    const factory: unknown = Reflect.get(globalThis, Symbol.for("procedura.mcp.client"));
+    if (typeof factory !== "function") throw new Error("Procedura MCP session was not configured; refusing API fallback");
+    return factory() as LLMClient;
+  }
   const f = opts.fetch ?? fetch;
   const MAX_ATTEMPTS = Math.max(1, opts.maxAttempts ?? 4);
 

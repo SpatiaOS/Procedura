@@ -11,6 +11,9 @@
   },
   "scripts": {
     "setup": "bash scripts/install-deps.sh",
+    "setup:mcp": "bash scripts/install-mcp.sh",
+    "mcp": "python3 mcp/server.py",
+    "test:mcp": "python3 -m unittest discover -s mcp/tests -p 'test_*.py' && bun test mcp/tests",
     "typecheck": "tsc --noEmit",
     "procedura": "bun run scripts/procedura.ts",
     "paint": "bun run scripts/paint.ts",

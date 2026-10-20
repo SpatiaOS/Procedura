@@ -1,0 +1,42 @@
+{
+  "id": "procedura-current-session-v1",
+  "transport": "session",
+  "description": "Existing Procedura pipeline with generation supplied by the current coding-agent conversation.",
+  "model": "current-session",
+  "reasoning_effort": "current-session",
+  "call_timeout_seconds": 3600,
+  "options": {
+    "incremental": true,
+    "assembly": true,
+    "motionAware": true,
+    "incrementalMotion": true,
+    "refine": true,
+    "maxSteps": 6,
+    "paint": true,
+    "motion": true,
+    "motionUrdf": true,
+    "motionValidate": true,
+    "motionSimRefine": true,
+    "exportStl": false,
+    "contextRenders": true
+  },
+  "environment": {
+    "PROCEDURA_REFINE_MODE": "direct",
+    "PROCEDURA_PLAN_REVIEW_ITERS": "1",
+    "PROCEDURA_MAX_PARTS": "0",
+    "PROCEDURA_NO_PLAN": "0",
+    "PROCEDURA_INCREMENTAL_CONN_GATE": "1",
+    "PROCEDURA_INCREMENTAL_MOTION": "1",
+    "PROCEDURA_INCREMENTAL_ASSEMBLY": "1",
+    "PROCEDURA_INCREMENTAL_MOTION_GATE": "0",
+    "PROCEDURA_INCREMENTAL_ASSEMBLY_GATE": "0",
+    "PROCEDURA_SKIP_MATE_CHECK": "0",
+    "PROCEDURA_SKIP_PART_COMPILE": "0",
+    "PROCEDURA_REF_IMAGE_SIZE": "1024",
+    "PROCEDURA_FEEDBACK_RENDER_SIZE": "1024",
+    "PROCEDURA_REFINE_MIN_FACET_RATIO": "0.8",
+    "PROCEDURA_REFINE_REMOVAL_FACET_RATIO": "0.4",
+    "PROCEDURA_REFINE_MAX_BARREN": "2",
+    "PROCEDURA_PAINT_SUBPART_CONCURRENCY": "1"
+  }
+}

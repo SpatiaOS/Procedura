@@ -25,6 +25,7 @@
 
 import { writeFileSync, mkdirSync } from "node:fs";
 import { dirname } from "node:path";
+import { generateSessionReference } from "../../mcp/runtime/session.ts";
 
 export interface GenerateImageOpts {
   prompt: string;
@@ -48,6 +49,7 @@ export function resolveImageModel(override?: string): string | undefined {
  *  Checked before a run starts so a missing reference fails in the first
  *  second rather than after the planner has already been paid for. */
 export function imageGenAvailable(override?: string): boolean {
+  if (process.env["PROCEDURA_MCP_SESSION"] === "1") return true;
   return Boolean(resolveImageModel(override) && process.env["OPENAI_API_KEY"]);
 }
 
@@ -83,6 +85,7 @@ interface ImagesGenerationsResponse {
 }
 
 export async function generateImage(opts: GenerateImageOpts): Promise<string> {
+  if (process.env["PROCEDURA_MCP_SESSION"] === "1") return generateSessionReference(opts);
   const apiKey = process.env["OPENAI_API_KEY"];
   if (!apiKey) {
     throw new Error("OPENAI_API_KEY not set in env / .env");
