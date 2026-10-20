@@ -22,6 +22,11 @@ and exports files for moving parts.
 current session. You do not need a separate model API key. Your agent's usual
 usage limits and billing apply.
 
+## News
+
+- **2026-10-20 — MCP release.** Run Procedura inside Codex or Claude Code with
+  the model in your current session. See the [setup guide](docs/mcp.md).
+
 ## Quick start
 
 You need Git, curl, Python 3.11+ with `venv` support, and Codex or Claude Code.
@@ -97,19 +102,6 @@ report to see what the run produced.
   and agent session for each case.
 - **Keep files and settings unchanged during a run.** See the
   [recovery guide](docs/mcp.md#outputs-recovery-and-troubleshooting) if a run stops.
-
-## Test runs
-
-We ran two full cases in Claude Code with Opus 5.5 through a gateway:
-
-| Case | Parts built | Time |
-| --- | --- | --- |
-| `assault_buggy` | 26 of 26 | 4h 57m |
-| `00001198` rover | 22 of 22 | 4h 28m |
-
-Both passed the strict Isaac checks. The buggy run reported two motion warnings.
-Times vary with hardware and model access. See the
-[test details](docs/mcp.md#test-results) for results and known limits.
 
 ## Guides
 
